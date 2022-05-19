@@ -25,7 +25,7 @@ public abstract class DrawBase {
     * Java doc
     */
    public int getHeight() {
-      return width;
+      return height;
    }
 
    /**
