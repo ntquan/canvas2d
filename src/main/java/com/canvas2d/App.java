@@ -3,7 +3,7 @@ package com.canvas2d;
 import java.util.Scanner;
 
 /**
- * Hello world!
+ * Run application
  *
  */
 public class App {
@@ -17,8 +17,7 @@ public class App {
 
             }
         } catch (Exception e) {
-            // TODO: handle exception
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
 
     }

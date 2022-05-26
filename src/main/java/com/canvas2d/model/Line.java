@@ -7,7 +7,7 @@ public class Line extends DrawBase {
     * Java doc
     * args has 4 items: (x1, y1) - (x2, y2)
     */
-   public void draw(List<String> args) {
+   public void render(List<String> args) {
       int x1 = Integer.parseInt(args.get(0));
       int y1 = Integer.parseInt(args.get(1));
       int x2 = Integer.parseInt(args.get(2));

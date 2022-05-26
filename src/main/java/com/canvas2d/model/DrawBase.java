@@ -96,5 +96,5 @@ public abstract class DrawBase {
       }
    }
 
-   public abstract void draw(List<String> args);
+   public abstract void render(List<String> args);
 }
