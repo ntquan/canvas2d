@@ -2,55 +2,57 @@ package com.canvas2d.model;
 
 import java.util.List;
 
+import com.canvas2d.exception.InvalidInputException;
+
 public abstract class DrawBase {
    protected int width;
    protected int height;
    protected char[][] shape;
 
    /**
-    * Java doc
+    * get width
     */
    public int getWidth() {
       return width;
    }
 
    /**
-    * Java doc
+    * set width
     */
    public void setWidth(int w) {
       width = w;
    }
 
    /**
-    * Java doc
+    * get height
     */
    public int getHeight() {
       return height;
    }
 
    /**
-    * Java doc
+    * set height
     */
    public void setHeight(int h) {
       height = h;
    }
 
    /**
-    * Java doc
+    * get shape
     */
    public char[][] getShape() {
       return shape;
    }
 
    /**
-    * Java doc
+    * set shape
     */
    public void setShape(char[][] shape) {
       this.shape = shape;
    }
 
    /**
-    * Draw from position (x1, y1) to position (x2, y2) by any letter (etter)
+    * Draw from position (x1, y1) to position (x2, y2) by any letter (enter)
     */
    public void drawLine(int x1, int y1, int x2, int y2, char drawLetter) {
       if (x1 == x2) {
@@ -68,13 +70,12 @@ public abstract class DrawBase {
       }
    }
 
-   @Override
-   public String toString() {
+   public String toConsole() {
       StringBuilder output = new StringBuilder();
       // System.out.println("Debug + " + shape.length);
-      for (int i = 0; i < shape.length; i++) {
-         for (int j = 0; j < shape[i].length; j++) {
-            output.append((shape[i][j]) == 0 ? " " : shape[i][j]);
+      for (char[] chars : shape) {
+         for (char aChar : chars) {
+            output.append(aChar == 0 ? " " : aChar);
          }
          output.append("\n");
       }
@@ -82,19 +83,24 @@ public abstract class DrawBase {
    }
 
    /**
-    * Output directly output to console
+    * Check integer
     */
-   public void toConsole() {
-      for (int i = 0; i < shape.length; i++) {
-         for (int j = 0; j < shape[i].length; j++) {
-            if (shape[i][j] == 0)
-               System.out.print("*");
-            else
-               System.out.print(shape[i][j]);
-         }
-         System.out.println("");
-      }
+   protected boolean isInteger(String str) {
+      return str.matches("-?\\d+?");
    }
 
-   public abstract void render(List<String> args);
+   /**
+    * Valid the (x, y) in render of canvas
+    */
+   protected void validRender(int x1, int y1, int x2, int y2) throws InvalidInputException {
+      if (x1 <=0 || x2 <=0 || y1 <= 0 || y2 <=0)
+         throw new InvalidInputException("x1 y1 x2 y2 should be greater than 0");
+
+      if (x1 > width || x2 > width)
+         throw new InvalidInputException("x1, x2 should be in range [1," + width + "]");
+      if (y1 > height || y2 > height)
+         throw new InvalidInputException("y1, y2 should be in range [1," + height + "]");
+   }
+
+   public abstract void render(List<String> args) throws InvalidInputException;
 }

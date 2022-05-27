@@ -26,7 +26,7 @@ Q               Should quit the program.
 __Sample I/O__
 
 Below is a sample run of the program. User input is prefixed with enter command:
-
+```text
 enter command: C 20 4
 ----------------------
 |                    |
@@ -68,3 +68,16 @@ enter command: B 10 3 o
 ----------------------
 
 enter command: Q
+```
+
+__Run unit-test__
+```sh
+$ mvn test
+```
+
+__Run application__
+```sh
+$ mvn clean package
+# That command will create a jar 'canvas2d-1.0.jar' file in 'target' folder
+$ java -jar ./target/canvas2d-1.0.jar
+```

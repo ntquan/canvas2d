@@ -1,6 +1,7 @@
 package com.canvas2d;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.canvas2d.exception.InvalidInputException;
@@ -13,44 +14,51 @@ import com.canvas2d.model.Rectangle;
 public class ConsoleFactory {
    private DrawBase shape;
 
-   public DrawBase getShape(String type) {
+   public DrawBase createShape(String type) {
       if (type == null)
          return null;
 
-      if (type.equals("C")) {
-         return new Canvas();
-      } else if (type.equals("L")) {
-         return new Line();
-      } else if (type.equals("R")) {
-         return new Rectangle();
-      } else if (type.equals("B")) {
-         return new Fill();
+      switch (type) {
+         case "C":
+            return new Canvas();
+         case "L":
+            return new Line();
+         case "R":
+            return new Rectangle();
+         case "B":
+            return new Fill();
       }
       return null;
    }
 
-   public void create(String cmd) throws InvalidInputException{
+   public void create(String cmd) throws InvalidInputException {
       String[] outputArr = cmd.split(" ");
       String shapeType = outputArr[0].toUpperCase();
-      if (shapeType.equals("Q"))
-      {
+      if (shapeType.equals("Q")) {
          throw new InvalidInputException("Exit Application");
       }
-      List<String> args = new ArrayList<String>();
-      for (int i = 1; i < outputArr.length; i++) {
-         args.add(outputArr[i]);
-      }
+      // the Canvas must be created at the first time
+      if (shape == null && !shapeType.equals("C"))
+         throw new InvalidInputException("Canvas must be created at the first time");
+      DrawBase newShape = createShape(shapeType);
+      if (newShape == null)
+         throw new InvalidInputException("Command is is invalid");
 
-      DrawBase newShape = getShape(shapeType);
+      List<String> args = new ArrayList<>(Arrays.asList(outputArr));
+      // remove type of command in argument
+      args.remove(0);
       // Assign old value to current console
-      // TODO: should check input Canvas at the first time
       if (shape != null) {
          newShape.setHeight(shape.getHeight());
          newShape.setWidth(shape.getWidth());
          newShape.setShape(shape.getShape());
       }
 
-      shape = newShape;
-      shape.render(args);
+      try {
+         newShape.render(args);
+         shape = newShape;
+      } catch (Exception e) {
+         System.out.println(e.getMessage());
+      }
    }
 }
